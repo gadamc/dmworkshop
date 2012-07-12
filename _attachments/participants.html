@@ -47,16 +47,28 @@
 
         
         <div class="page-header">
+         <span  class="visible-desktop" >
           <h2>HAP Direct Dark Matter Detection</h2>
-        <h3>Detector Development and Analysis Workshop</h3>
-        <br>
-          <p>Confirmed Participants</p>
+          <h3>Detector Development and Analysis Workshop</h3>
+          <br>
+         </span>
+          <p>Participants</p>
         </div>
           
-        <div id="participantslist">
-       
-		    </div>
+        <table class="table table-condensed" id="participantsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>University</th>
+              <th>Talk Title</th>
+            </tr>
+          </thead>
+          <tbody id="participantsTable_body">
+            <!-- to be filled in by javascript -->
+          </tbody>
+        </table>
      
+
     </div> <!-- /container -->
 
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
@@ -65,6 +77,7 @@
     <script type="text/javascript" src="js/jquery.couch.js"></script>
     <script type="text/javascript" src="js/bootstrap-tab.js"></script>
     <script type="text/javascript" src="js/bootstrap-button.js"></script>
+    <script type="text/javascript" src="js/participants.js"></script>
     
   </body>
 </html>
