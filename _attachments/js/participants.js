@@ -18,9 +18,9 @@ $(document).ready(function(){
 				row += '<td>'+data.rows[i]['value']['title-of-talk']+'</td>'   
 				$('#participantsTable_body').append(row);
 
-				$("#participantsTable").trigger("update");
-
 			});
+
+			$("#participantsTable").trigger("update");
 
 		}
 	});
