@@ -39,18 +39,49 @@ $(document).ready(function(){
 				// console.log(eventDate)
 				// console.log(date)
 
-				var row = '<tr class="' + eventDate +'_body_elements">' 
-				row += '<td>' + eventTime + '</td>';  
-				row += '<td>' + data.rows[i]['value']['title'] + '</td>'
-				
 				var speaker = "";
 				if( data.rows[i]['value']['speaker']){
 					speaker = data.rows[i]['value']['speaker'];
 				}
+
+				var row = '<tr class="' + eventDate +'_body_elements">' 
+				row += '<td>' + eventTime + '</td>';  
+				row += '<td id="' + eventDate + eventTime + speaker + '"></td>'
+				console.log("adding a row with ID " + eventDate + eventTime + speaker);				
+				//console.log(data.rows[i])
+				//console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
+				
 				row += '<td>' + speaker + '</td>'
 
+				console.log("appending row to " + eventDate);
+				$('#' + eventDate + '_body').append(row);				
 
-				$('#' + eventDate + '_body').append(row);
+				//if we know the speaker_id, and no title was given
+				if( data.rows[i]['value']['speaker_id'] && !data.rows[i]['value']['title'] ){
+					console.log("found speaker id and no title");
+					db.openDoc(data.rows[i]['value']['speaker_id'].toString(), {
+
+						success: function( participantDoc ) {
+							console.log("found doc" + data.rows[i]['value']['speaker_id'] )
+							for (var jj in  participantDoc ['fields']){
+								if ( participantDoc['fields'][jj]['external_id'] == 'title-of-talk'){
+									document.getElementById(eventDate + eventTime + speaker).innerHTML = participantDoc['fields'][jj]['values'][0]['value'] ;
+									console.log( participantDoc['fields'][jj]['values'][0]['value'] );
+									console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
+								}
+							}
+						}
+					});
+				}
+				
+				if(data.rows[i]['value']['title']){
+					console.log("found  title");
+					document.getElementById(eventDate + eventTime + speaker).innerHTML =  data.rows[i]['value']['title'] ;
+					console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
+				}
+
+
+				
 				$('#' + eventDate ).trigger("update");
 
 			});

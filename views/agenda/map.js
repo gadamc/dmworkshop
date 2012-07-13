@@ -16,7 +16,8 @@ function(doc) {
    }
 
    if(extId == "speaker"){
-     output[extId] =  doc.fields[i]['values'][0]['value']['title']; 
+     output[extId] =  doc.fields[i]['values'][0]['value']['title'];
+     output["speaker_id"] =  doc.fields[i]['values'][0]['value']['item_id'];
    }
 
    if(extId == "event-title"){
