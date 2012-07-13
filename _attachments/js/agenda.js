@@ -9,10 +9,20 @@ $(document).ready(function(){
 
 
 
+	// query the database and ask for all of the items in the agenda.
+	// we'll sort through each agenda item and place it in the appropriate
+	// table based upon its date. this javascript is tightly coupled to agenda.html
+
 	db.view(appName + "/agenda",  {
 		success:function(data){
 			$.each(data.rows, function(i, row){
 
+				//each row returned by the database contains a key/value pair
+				//in the key is the date of the event, and the value contains an object
+				//holding the date, speaker, speaker_id, and title
+
+				//first, parse the key (which holds the date) to a string
+				//with the proper timezone before we fill it into a table row
 
 				//have to do this silliness in 
 				//order to support IE... I think. Mixed reports.
@@ -29,7 +39,7 @@ $(document).ready(function(){
 	
 
 
-				//now separate time and date and fill table column
+				//now separate time and date 
 				var ttime = date.toLocaleTimeString();
 				var eventTime = ttime.split(":")[0] + ":"  + ttime.split(":")[1];
 				var eventDate = a[0];
@@ -39,45 +49,47 @@ $(document).ready(function(){
 				// console.log(eventDate)
 				// console.log(date)
 
+				//see if there's a particular speaker for this event
 				var speaker = "";
 				if( data.rows[i]['value']['speaker']){
 					speaker = data.rows[i]['value']['speaker'];
 				}
 
+				// create the cells of this particular row in the table
+				// and give a unique ID to the second cell to be filled in
+				// by the code below
+
 				var row = '<tr class="' + eventDate +'_body_elements">' 
 				row += '<td>' + eventTime + '</td>';  
 				row += '<td id="' + eventDate + eventTime + speaker + '"></td>'
-				console.log("adding a row with ID " + eventDate + eventTime + speaker);				
-				//console.log(data.rows[i])
-				//console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
-				
 				row += '<td>' + speaker + '</td>'
 
-				console.log("appending row to " + eventDate);
-				$('#' + eventDate + '_body').append(row);				
+				$('#' + eventDate + '_body').append(row); //this adds the row to the table in agenda.html
+
 
 				//if we know the speaker_id, and no title was given
+				//go to the database and grab the title of the talk
+				//provided when the participant registered for the workshop
+
 				if( data.rows[i]['value']['speaker_id'] && !data.rows[i]['value']['title'] ){
-					console.log("found speaker id and no title");
+
 					db.openDoc(data.rows[i]['value']['speaker_id'].toString(), {
 
 						success: function( participantDoc ) {
-							console.log("found doc" + data.rows[i]['value']['speaker_id'] )
 							for (var jj in  participantDoc ['fields']){
 								if ( participantDoc['fields'][jj]['external_id'] == 'title-of-talk'){
 									document.getElementById(eventDate + eventTime + speaker).innerHTML = participantDoc['fields'][jj]['values'][0]['value'] ;
-									console.log( participantDoc['fields'][jj]['values'][0]['value'] );
-									console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
 								}
 							}
 						}
 					});
 				}
 				
+				//otherwise, if a title is given to us in the original return from the database
+				//fill in the title here
+
 				if(data.rows[i]['value']['title']){
-					console.log("found  title");
 					document.getElementById(eventDate + eventTime + speaker).innerHTML =  data.rows[i]['value']['title'] ;
-					console.log( document.getElementById(eventDate + eventTime + speaker).innerHTML );
 				}
 
 
