@@ -1,5 +1,5 @@
 function(doc) {
- if(doc.title){
+ if(doc.type == "participant"){
   
   var output = {};
 
