@@ -34,10 +34,11 @@ $(document).ready(function(){
 				for(var ii=0; ii<d.length; ii++) { d[ii] = parseInt(d[ii], 10); } 
 				for(var ii=0; ii<t.length; ii++) { t[ii] = parseInt(t[ii], 10); } 
 
-				var temp = new Date();  //our data comes in UTC, so we need to know the local time
+
+				var temp = new Date(d[0],d[1] - 1,d[2],t[0], t[1], t[2]);  
+				//our data comes in UTC, so we need to know the local time on the day of the conference
 				var date = new Date(d[0],d[1] - 1,d[2],t[0], t[1] + -1*temp.getTimezoneOffset(), t[2]);
 	
-
 
 				//now separate time and date 
 				var ttime = date.toLocaleTimeString();
