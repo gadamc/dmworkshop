@@ -130,7 +130,7 @@ $(document).ready(function(){
           document.getElementById(elId).innerHTML =  data.rows[i]['value']['title'] ;
           //highlight(elId);
         
-          if( data.rows[i]['value']['title'] == "Breakfast" || data.rows[i]['value']['title'].indexOf("Coffee") >= 0)  
+          if( data.rows[i]['value']['title'] == "Breakfast")  
             $('#rowid_' + elId).addClass("success")
           
           if (data.rows[i]['value']['title'] == "Lunch" )
