@@ -85,28 +85,24 @@ $(document).ready(function(){
                   
                   var htmlString; 
                   
-
-                  if(participantDoc['title'] == 'Adam Cox'){
-                    adamCount = adamCount + 1;
-                    console.log(participantDoc['title'] + ' ' + adamCount)
-                    //htmlString = '<a href="https://cloudant.com/db/edelweiss/dmworkshop"' + data.rows[i]['value']['speaker_id'] + '/' '>' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
-                    htmlString = participantDoc['fields'][jj]['values'][0]['value']
-
-                  }
-                  else if(participantDoc['title'] == 'Diana Goehringer')  {
-                    dianaCount = dianaCount + 1;
-                    console.log(participantDoc['title'] + ' ' + dianaCount)
-                    //htmlString = '<a href="">' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
-                    htmlString = participantDoc['fields'][jj]['values'][0]['value']
-                  }
-                  else if(participantDoc['title'] == 'Allen Caldwell')  {
+                 
+                  // else 
+                  // if(participantDoc['title'] == 'Diana Goehringer')  {
+                  //   dianaCount = dianaCount + 1;
+                  //   //console.log(participantDoc['title'] + ' ' + dianaCount)
+                  //   //htmlString = '<a href="">' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
+                  //   htmlString = participantDoc['fields'][jj]['values'][0]['value']
+                  // }
+                  // else 
+                  if(participantDoc['title'] == 'Allen Caldwell')  {
                     allenCount = allenCount + 1;
-                    console.log(participantDoc['title'] + ' ' + allenCount)
+                    //console.log(participantDoc['title'] + ' ' + allenCount)
                     //htmlString = '<a href="">' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
-                    htmlString = participantDoc['fields'][jj]['values'][0]['value']
+                    htmlString = '<a href="https://cloudant.com/db/edelweiss/dmworkshop/' + data.rows[i]['value']['speaker_id'] + '/Caldwell HAP.pdf">' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
+
                   }
                   else{
-                    console.log(participantDoc['title'])
+                    //console.log(participantDoc['title'])
                     htmlString = participantDoc['fields'][jj]['values'][0]['value']
                     for(fileName in participantDoc['_attachments']){
                       htmlString = '<a href="https://cloudant.com/db/edelweiss/dmworkshop/' + data.rows[i]['value']['speaker_id'] + '/' + fileName + '">' + participantDoc['fields'][jj]['values'][0]['value'] + '</a>'
@@ -118,7 +114,6 @@ $(document).ready(function(){
                 }
 
               }
-              //highlight(elId);
             }
           });
         }
@@ -128,7 +123,6 @@ $(document).ready(function(){
 
         if(data.rows[i]['value']['title']){
           document.getElementById(elId).innerHTML =  data.rows[i]['value']['title'] ;
-          //highlight(elId);
         
           if( data.rows[i]['value']['title'] == "Breakfast")  
             $('#rowid_' + elId).addClass("success")
@@ -152,12 +146,3 @@ $(document).ready(function(){
 
 });
 
-function highlight(anId)
-{
-  if (document.getElementById(anId).innerHTML.indexOf("Workshop") >= 0  ||
-          document.getElementById(anId).innerHTML.indexOf("Evening Lecture") >= 0){
-          console.log(document.getElementById(anId).innerHTML)
-          $('#rowid_' + anId).addClass("success")
-          $('#rowid_' + anId).trigger("update")
-        }
-}
